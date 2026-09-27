@@ -6,14 +6,15 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Serve index.html for SPA-style client-side routing.
+# Force a clean rebuild of the contact form on Netlify.
+# Rebuild trigger: 2026-09-27T16:55Z
+
 [[redirects]]
-  from = "/*"
+  from = "/index.html"
   to = "/index.html"
   status = 200
 
-# Don't cache the contact form endpoint responses.
 [[headers]]
   for = "/index.html"
   [headers.values]
-  cache-control = "no-cache"
+  cache-control = "no-cache, no-store, must-revalidate"
