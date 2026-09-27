@@ -1,4 +1,4 @@
-# Video editor portfolio — starter site
+# Video editor portfolio — Marvin Cristopher Ubaldo
 
 This is a real website: HTML, CSS, and a little JavaScript.
 Open the folder in VS Code, replace the placeholder text and video links, then publish it for free.
@@ -7,7 +7,7 @@ Open the folder in VS Code, replace the placeholder text and video links, then p
 
 - `index.html` — all of the page content
 - `css/style.css` — colors, layout, mobile menu
-- `js/main.js` — mobile menu + year in the footer
+- `js/main.js` — mobile menu, client carousel, scroll reveal, and contact form
 
 ## What to change first
 
