@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>verify</title>
+  </head>
+  <body style="margin: 0">
+    <iframe id="f" src="../index.html" style="width: 1280px; height: 4000px; border: 0"></iframe>
+    <pre id="out">pending</pre>
+    <script>
+      const out = document.getElementById('out');
+      const frame = document.getElementById('f');
+      frame.addEventListener('load', function () {
+        setTimeout(function () {
+          try {
+            const doc = frame.contentDocument;
+            const win = frame.contentWindow;
+            const imgs = Array.prototype.slice.call(doc.querySelectorAll('.client-logo'));
+            imgs.forEach(function (img) {
+              img.loading = 'eager';
+            });
+            let tries = 0;
+            const check = function () {
+              tries += 1;
+              const ready = imgs.every(function (img) { return img.complete; }) || tries > 60;
+              if (!ready) {
+                setTimeout(check, 100);
+                return;
+              }
+              const lines = imgs.map(function (img, index) {
+                const r = img.getBoundingClientRect();
+                const slot = img.closest('.client-logo-slot');
+                const sr = slot.getBoundingClientRect();
+                const cs = win.getComputedStyle(slot);
+                const name = img.getAttribute('src').split('/').pop();
+                return [
+                  index + 1,
+                  name,
+                  'natural=' + img.naturalWidth + 'x' + img.naturalHeight,
+                  'rendered=' + Math.round(r.width) + 'x' + Math.round(r.height),
+                  'slot=' + Math.round(sr.width) + 'x' + Math.round(sr.height),
+                  'slotBg=' + cs.backgroundColor,
+                  'slotPadding=' + cs.padding,
+                  'alt="' + img.alt + '"'
+                ].join(' | ');
+              });
+              lines.push('theme=' + doc.documentElement.getAttribute('data-theme'));
+              out.textContent = 'BEGIN' + String.fromCharCode(10) + lines.join(String.fromCharCode(10)) + String.fromCharCode(10) + 'END';
+            };
+            check();
+          } catch (err) {
+            out.textContent = 'BEGIN' + String.fromCharCode(10) + 'ERROR ' + err.message + String.fromCharCode(10) + 'END';
+          }
+        }, 300);
+      });
+    </script>
+  </body>
+</html>

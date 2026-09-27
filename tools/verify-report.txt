@@ -1,0 +1,6 @@
+﻿1 | World_Health_Organization_Logo.svg | natural=300x92 | rendered=614x188 | slot=240x220 | slotBg=rgb(27, 29, 31) | slotPadding=0px | alt="World Health Organization emblem"
+2 | 330px-National_Youth_Commission_Philippines.svg.png | natural=330x330 | rendered=216x216 | slot=240x240 | slotBg=rgb(27, 29, 31) | slotPadding=12px | alt="National Youth Commission of the Philippines seal"
+3 | 250px-Philippine_Crop_Insurance_Corporation_%28PCIC%29.svg.png | natural=250x347 | rendered=130x180 | slot=240x204 | slotBg=rgb(27, 29, 31) | slotPadding=12px | alt="Philippine Crop Insurance Corporation logo"
+4 | deped-emblem.svg | natural=115x265 | rendered=78x180 | slot=240x204 | slotBg=rgb(27, 29, 31) | slotPadding=12px | alt="Department of Education (DepEd) logo mark"
+5 | quanby-logo-mark.png | natural=468x468 | rendered=216x216 | slot=240x240 | slotBg=rgb(27, 29, 31) | slotPadding=12px | alt="Quanby Solutions, Inc. logo mark"
+theme=null
