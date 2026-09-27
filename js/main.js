@@ -269,7 +269,7 @@ if (contactForm) {
     });
   });
 
-  contactForm.addEventListener("submit", (event) => {
+  contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     contactForm.dataset.submitted = "true";
     const firstInvalid = validateForm();
@@ -281,30 +281,51 @@ if (contactForm) {
       return;
     }
 
-    const subject = encodeURIComponent(`${typeField.value} inquiry from ${nameField.value.trim()}`);
-    const body = encodeURIComponent(
-      [
-        `Name: ${nameField.value.trim()}`,
-        `Email: ${emailField.value.trim()}`,
-        `Project type: ${typeField.value}`,
-        "",
-        messageField.value.trim(),
-      ].join("\n")
-    );
+    const honey = contactForm.querySelector(".contact-form-honeypot");
+    if (honey && honey.value.trim()) {
+      return;
+    }
+
+    const endpoint = contactForm.getAttribute("action") || "";
+    if (!endpoint) {
+      formStatus.dataset.state = "error";
+      formStatus.textContent = "No submission endpoint is configured.";
+      return;
+    }
 
     submitButton.disabled = true;
-    submitButton.textContent = "Opening email…";
-    formStatus.dataset.state = "success";
-    formStatus.textContent = "Opening your email app with the inquiry filled in.";
-    window.location.href = `mailto:marvinubaldo68@gmail.com?subject=${subject}&body=${body}`;
+    submitButton.textContent = "Sending…";
+    formStatus.dataset.state = "sending";
+    formStatus.textContent = "Sending your inquiry…";
 
-    window.setTimeout(() => {
-      contactForm.dataset.state = "success";
-      formStatus.textContent =
-        "If your email app didn’t open, copy the address above and send the note directly.";
-      submitButton.disabled = false;
-      submitButton.textContent = "Send inquiry";
-    }, 700);
+    const data = new FormData(contactForm);
+    const payload = Object.fromEntries(data.entries());
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        formStatus.dataset.state = "success";
+        formStatus.textContent = "Thanks — your inquiry was sent. I’ll reply within 1–2 business days.";
+        contactForm.reset();
+      } else {
+        const text = await response.text();
+        formStatus.dataset.state = "error";
+        formStatus.textContent = text || "Something went wrong. Please email the address above directly.";
+      }
+    } catch (networkError) {
+      formStatus.dataset.state = "error";
+      formStatus.textContent = "Network error — please email the address above directly.";
+    } finally {
+      window.setTimeout(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send inquiry";
+      }, 4000);
+    }
   });
 }
 

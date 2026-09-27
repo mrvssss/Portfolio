@@ -338,7 +338,7 @@
             </div>
             <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
 
-            <form class="contact-form" id="contact-form" novalidate aria-labelledby="contact-form-title">
+            <form class="contact-form" id="contact-form" novalidate aria-labelledby="contact-form-title" action="https://formspree/f/QFILLMEIN" method="POST">
               <p class="contact-form-title" id="contact-form-title">Project inquiry</p>
               <div class="field">
                 <label for="contact-name">Name</label>
@@ -366,8 +366,11 @@
               </div>
               <div class="contact-form-actions">
                 <button class="box" id="contact-submit" type="submit">Send inquiry</button>
-                <p class="form-hint">Opens your email app with the details filled in. Nothing is stored on this site.</p>
+                <p class="form-hint">Your inquiry is sent directly to marvinubaldo68@gmail.com. Nothing is stored on this site.</p>
               </div>
+              <input type="hidden" name="_subject" value="New project inquiry from the portfolio" />
+              <input type="hidden" name="_replyto" value="Auto-reply to sender" />
+              <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="contact-form-honeypot" />
               <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
             </form>
           </div>
