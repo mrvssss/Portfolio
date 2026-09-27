@@ -1,0 +1,19 @@
+[build]
+  command = "echo 'static site, no build step'"
+  publish = "."
+  publish_branch = "main"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Serve index.html for SPA-style client-side routing.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Don't cache the contact form endpoint responses.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+  cache-control = "no-cache"
