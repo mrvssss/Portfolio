@@ -8,6 +8,8 @@ const reelControls = document.querySelector(".reel-controls");
 const reelMenuToggle = document.getElementById("reel-menu-toggle");
 const reelProjectMenu = document.getElementById("reel-project-menu");
 const reelCurrent = document.getElementById("reel-current");
+const reelPlayer = document.getElementById("reel-player");
+const reelFallback = document.getElementById("reel-fallback");
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -138,9 +140,16 @@ if (reelControls && reelMenuToggle && reelProjectMenu) {
       const fileId = option.dataset.fileId;
       const projectName = option.textContent.trim();
 
-      setReelVideo(fileId, projectName);
+      if (reelPlayer) {
+        reelPlayer.src = `https://drive.google.com/file/d/${fileId}/preview`;
+        reelPlayer.title = `${projectName} preview`;
+      }
       if (reelCurrent) {
         reelCurrent.textContent = projectName;
+      }
+      if (reelFallback) {
+        reelFallback.href = `https://drive.google.com/file/d/${fileId}/view`;
+        reelFallback.textContent = `Open ${projectName} in Google Drive`;
       }
 
       reelProjectMenu.querySelectorAll(".reel-project-option").forEach((item) => {
@@ -168,25 +177,6 @@ if (reelControls && reelMenuToggle && reelProjectMenu) {
 
 const copyStatus = document.getElementById("copy-status");
 const contactForm = document.getElementById("contact-form");
-const reelPlayer = document.getElementById("reel-player");
-const reelSource = document.getElementById("reel-source");
-const reelFallback = document.getElementById("reel-fallback");
-
-const setReelVideo = (fileId, projectName) => {
-  if (!reelSource || !reelPlayer) {
-    return;
-  }
-
-  reelSource.src = `https://drive.google.com/uc?export=download&id=${fileId}`;
-  reelSource.type = "video/mp4";
-  reelPlayer.load();
-  reelPlayer.title = `${projectName} preview`;
-
-  if (reelFallback) {
-    reelFallback.href = `https://drive.google.com/file/d/${fileId}/view`;
-    reelFallback.textContent = `Open ${projectName} in Google Drive`;
-  }
-};
 
 document.querySelectorAll(".copy-btn").forEach((button) => {
   button.addEventListener("click", async () => {
