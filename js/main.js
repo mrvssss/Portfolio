@@ -11,19 +11,6 @@ const reelCurrent = document.getElementById("reel-current");
 const reelPlayer = document.getElementById("reel-player");
 const reelFallback = document.getElementById("reel-fallback");
 
-if (reelPlayer) {
-  reelPlayer.addEventListener("loadeddata", () => {
-    reelPlayer.dataset.state = "ready";
-  });
-
-  reelPlayer.addEventListener("error", () => {
-    reelPlayer.dataset.state = "error";
-    if (reelFallback) {
-      reelFallback.textContent = "Open this video in Google Drive";
-    }
-  });
-}
-
 if (year) {
   year.textContent = new Date().getFullYear();
 }
@@ -152,12 +139,11 @@ if (reelControls && reelMenuToggle && reelProjectMenu) {
     option.addEventListener("click", () => {
       const fileId = option.dataset.fileId;
       const projectName = option.textContent.trim();
-      const mediaUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+      const previewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
 
       if (reelPlayer) {
-        reelPlayer.src = mediaUrl;
+        reelPlayer.src = previewUrl;
         reelPlayer.title = `${projectName} preview`;
-        reelPlayer.load();
       }
       if (reelCurrent) {
         reelCurrent.textContent = projectName;
