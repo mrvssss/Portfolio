@@ -29,7 +29,7 @@
               }
               const lines = imgs.map(function (img, index) {
                 const r = img.getBoundingClientRect();
-                const slot = img.closest('.client-logo-slot');
+                const slot = img.closest('.client-logo-card__mark');
                 const sr = slot.getBoundingClientRect();
                 const cs = win.getComputedStyle(slot);
                 const name = img.getAttribute('src').split('/').pop();

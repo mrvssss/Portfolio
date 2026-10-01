@@ -11,6 +11,19 @@ const reelCurrent = document.getElementById("reel-current");
 const reelPlayer = document.getElementById("reel-player");
 const reelFallback = document.getElementById("reel-fallback");
 
+if (reelPlayer) {
+  reelPlayer.addEventListener("loadeddata", () => {
+    reelPlayer.dataset.state = "ready";
+  });
+
+  reelPlayer.addEventListener("error", () => {
+    reelPlayer.dataset.state = "error";
+    if (reelFallback) {
+      reelFallback.textContent = "Open this video in Google Drive";
+    }
+  });
+}
+
 if (year) {
   year.textContent = new Date().getFullYear();
 }
@@ -139,10 +152,12 @@ if (reelControls && reelMenuToggle && reelProjectMenu) {
     option.addEventListener("click", () => {
       const fileId = option.dataset.fileId;
       const projectName = option.textContent.trim();
+      const mediaUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
       if (reelPlayer) {
-        reelPlayer.src = `https://drive.google.com/file/d/${fileId}/preview`;
+        reelPlayer.src = mediaUrl;
         reelPlayer.title = `${projectName} preview`;
+        reelPlayer.load();
       }
       if (reelCurrent) {
         reelCurrent.textContent = projectName;
@@ -393,40 +408,37 @@ const clientPanel = document.querySelector("[data-client-panel]");
 
 if (clientCarousel && clientTrack) {
   const cards = [...clientTrack.querySelectorAll(".client-logo-card")];
-  const unique = cards.slice(0, Math.ceil(cards.length / 2));
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const DATA = [
-    {
+  const DATA = {
+    who: {
       name: "World Health Organization",
       date: "Video Editing · September 2025",
-      desc: "Produced introductory videos for learning modules to improve engagement and make complex health topics easy to understand."
+      desc: "Produced introductory videos for each module of WHO's learning materials, enhancing user engagement and comprehension."
     },
-    {
+    nyc: {
       name: "National Youth Commission",
       date: "Video Editing · January–August 2026",
       desc: "Created introductory videos for educational modules, simplifying technical content for youth audiences."
     },
-    {
+    pcic: {
       name: "Philippine Crop Insurance Corporation",
       date: "Video Editing · April 2026",
-      desc: "Developed an instructional video for the mobile application to help improve user proficiency."
+      desc: "Developed an instructional video that guided users on utilizing the mobile application, improving user proficiency."
     },
-    {
+    deped: {
       name: "Department of Education",
       date: "Video Editing · September 2025",
-      desc: "Produced instructional videos to improve understanding of system operations within educational institutions."
+      desc: "Produced instructional videos aimed at enhancing understanding of system operations within educational institutions."
     },
-    {
+    qs: {
       name: "Quanby Solutions, Inc.",
       date: "Video Editing · June 2025–Present",
-      desc: "Created promotional and instructional videos for 22 systems."
+      desc: "Created promotional and instructional videos for 22 systems and platforms, driving clarity and engagement in communication."
     }
-  ];
+  };
 
   const getData = (card) => {
-    const key = card.dataset.client;
-    return DATA.find((entry) => key && entry.name.toLowerCase().includes(key)) || DATA[0];
+    return DATA[card.dataset.client] || DATA.qs;
   };
 
   const showPanel = (card) => {
@@ -517,8 +529,4 @@ if (clientCarousel && clientTrack) {
       activeCard.blur();
     }
   });
-
-  if (prefersReducedMotion.matches) {
-    clientTrack.style.animation = "none";
-  }
 }

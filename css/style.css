@@ -6,6 +6,7 @@
   --muted: #aaa69f;
   --line: rgba(255, 255, 255, 0.07);
   --accent: #d9ad70;
+  --accent-glow: rgba(217, 173, 112, 0.2);
   --header-bg: rgba(27, 29, 31, 0.92);
   --ambient-strong: rgba(150, 108, 56, 0.12);
   --ambient-soft: rgba(83, 61, 36, 0.07);
@@ -27,6 +28,7 @@
   --muted: #666b70;
   --line: rgba(38, 40, 43, 0.08);
   --accent: #8c622f;
+  --accent-glow: rgba(140, 98, 47, 0.18);
   --header-bg: rgba(229, 232, 236, 0.92);
   --ambient-strong: rgba(190, 142, 77, 0.14);
   --ambient-soft: rgba(190, 142, 77, 0.07);
@@ -46,11 +48,13 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  overflow-x: clip;
   font-family: "Montserrat", sans-serif;
   background: radial-gradient(
       ellipse 48vw 86vh at 100% 34%,
@@ -109,6 +113,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   min-height: 72px;
 }
 
@@ -677,11 +682,96 @@ h2 {
 
 .reel,
 .work,
+.toolkit,
 .about,
 .contact {
   padding: 80px 0;
   border-top: 1px solid var(--line);
   scroll-margin-top: 84px;
+}
+
+.toolkit-carousel__stage {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -8px;
+  padding: 28px 8px;
+  mask-image: linear-gradient(to right, transparent 0%, var(--bg) 8%, var(--bg) 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, var(--bg) 8%, var(--bg) 92%, transparent 100%);
+  scrollbar-width: none;
+}
+
+.toolkit-carousel__stage::-webkit-scrollbar {
+  display: none;
+}
+
+.toolkit-carousel__track {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  width: max-content;
+  padding-inline: 8px;
+  animation: toolkit-carousel-scroll 32s linear infinite;
+}
+
+.toolkit-carousel:hover .toolkit-carousel__track,
+.toolkit-carousel:focus-within .toolkit-carousel__track {
+  animation-play-state: paused;
+}
+
+.toolkit-card {
+  flex: 0 0 232px;
+  min-height: 132px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--accent-glow);
+  transition: border-color 180ms ease, box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.toolkit-card img {
+  display: block;
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  filter: grayscale(1) sepia(0.55) saturate(0.65) brightness(1.1);
+  transition: filter 220ms ease, transform 220ms ease;
+}
+
+.toolkit-card:hover,
+.toolkit-card:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 14px var(--accent-glow);
+  transform: translateY(-4px);
+}
+
+.toolkit-card:hover img,
+.toolkit-card:focus-within img {
+  filter: none;
+  transform: scale(1.06);
+}
+
+.toolkit-card img:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolkit-carousel__stage {
+    scroll-behavior: auto;
+  }
+
+  .toolkit-carousel__track {
+    animation: none;
+  }
+
+  .toolkit-card,
+  .toolkit-card img {
+    transition-duration: 0.01ms;
+    transition-delay: 0ms;
+  }
 }
 
 .hero {
@@ -828,7 +918,7 @@ code {
   border: 1px solid var(--line);
   border-radius: 16px;
   background: var(--surface);
-  box-shadow: var(--neo-raised);
+  box-shadow: 0 0 0 1px var(--accent-glow);
   position: relative;
   transition: border-color 180ms ease, box-shadow 180ms ease,
     transform 180ms ease, background-color 180ms ease;
@@ -837,27 +927,32 @@ code {
 .client-logo-card:hover,
 .client-logo-card:focus-within {
   border-color: var(--accent);
-  box-shadow: var(--neo-inset), 0 0 0 1px var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 14px var(--accent-glow);
 }
 
 .client-logo-card.is-active {
   border-color: var(--accent);
-  box-shadow: var(--neo-inset), 0 0 0 1px var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 14px var(--accent-glow);
 }
 
 .client-logo-card__mark {
   display: grid;
   place-items: center;
   width: 100%;
-  min-height: 88px;
+  height: 84px;
 }
 
 .client-logo-card__mark .client-logo {
   max-width: 100%;
-  max-height: 88px;
+  max-height: 76px;
   width: auto;
   height: auto;
   object-fit: contain;
+}
+
+.client-logo-card__mark .client-logo:not(.who-emblem):not(.pcic-logo):not(.deped-logo) {
+  width: 76px;
+  height: 76px;
 }
 
 .client-logo-card__mark .who-emblem-crop {
@@ -868,9 +963,9 @@ code {
 }
 
 .client-logo-card__mark .who-emblem {
-  width: auto;
-  max-width: 100%;
-  max-height: 88px;
+  width: min(100%, 208px);
+  max-width: 208px;
+  max-height: 76px;
   height: auto;
   object-fit: contain;
   object-position: center;
@@ -900,7 +995,7 @@ code {
   border: 1px solid var(--accent);
   border-radius: 14px;
   background: var(--surface);
-  box-shadow: var(--neo-raised), 0 18px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 0 0 1px var(--accent-glow), 0 0 14px var(--accent-glow);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -947,6 +1042,15 @@ code {
   }
 }
 
+@keyframes toolkit-carousel-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 12px));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .client-carousel__track {
     animation: none;
@@ -965,11 +1069,16 @@ code {
   }
 
   .client-logo-card__mark {
-    min-height: 74px;
+    height: 68px;
   }
 
   .client-logo-card__mark .client-logo {
-    max-height: 74px;
+    max-height: 62px;
+  }
+
+  .client-logo-card__mark .client-logo:not(.who-emblem):not(.pcic-logo):not(.deped-logo) {
+    width: 62px;
+    height: 62px;
   }
 
   .client-logo-card__name {
@@ -977,7 +1086,27 @@ code {
   }
 
   .client-carousel__panel {
-    bottom: calc(100% + 14px);
+    position: relative;
+    top: auto !important;
+    right: auto;
+    bottom: auto;
+    left: auto !important;
+    width: 100%;
+    max-height: 0;
+    margin-top: 0;
+    overflow: hidden;
+    padding-block: 0;
+    border-width: 0;
+    transform: none;
+    transition: opacity 200ms ease, max-height 240ms ease, margin-top 240ms ease,
+      padding 240ms ease, border-color 200ms ease;
+  }
+
+  .client-carousel__panel.is-open {
+    max-height: 320px;
+    margin-top: 12px;
+    padding-block: 18px;
+    border-width: 1px;
   }
 }
 
@@ -990,15 +1119,39 @@ code {
   }
 
   .client-logo-card__mark {
-    min-height: 64px;
+    height: 56px;
   }
 
   .client-logo-card__mark .client-logo {
-    max-height: 64px;
+    max-height: 52px;
+  }
+
+  .client-logo-card__mark .client-logo:not(.who-emblem):not(.pcic-logo):not(.deped-logo) {
+    width: 52px;
+    height: 52px;
   }
 
   .client-logo-card__name {
     font-size: 0.52rem;
+  }
+
+  .toolkit-carousel__stage {
+    padding: 18px 8px;
+  }
+
+  .toolkit-carousel__track {
+    gap: 18px;
+  }
+
+  .toolkit-card {
+    flex-basis: 164px;
+    min-height: 106px;
+    border-radius: 14px;
+  }
+
+  .toolkit-card img {
+    width: 68px;
+    height: 68px;
   }
 }
 
@@ -1318,6 +1471,18 @@ code {
 }
 
 @media (max-width: 800px) {
+  .wrap {
+    width: min(var(--max), calc(100% - 32px));
+  }
+
+  .logo {
+    min-width: 0;
+    max-width: 62vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .nav-toggle {
     display: block;
   }
@@ -1354,6 +1519,26 @@ code {
 }
 
 @media (max-width: 600px) {
+  .header-inner {
+    min-height: 64px;
+  }
+
+  .logo {
+    font-size: 0.98rem;
+  }
+
+  .nav {
+    inset: 64px 0 auto;
+  }
+
+  .reel,
+  .work,
+  .toolkit,
+  .about,
+  .contact {
+    padding: 64px 0;
+  }
+
   .division-nav {
     right: 6px;
   }

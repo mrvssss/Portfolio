@@ -48,6 +48,10 @@
             <span class="choice-control"><input class="choice-circle" id="division-work" type="radio" name="division" value="work" aria-label="Go to client logos" /><span class="ball"></span></span>
             <span class="choice-name" aria-hidden="true">Clients</span>
           </label>
+          <label class="choice" for="division-tools">
+            <span class="choice-control"><input class="choice-circle" id="division-tools" type="radio" name="division" value="tools" aria-label="Go to tools" /><span class="ball"></span></span>
+            <span class="choice-name" aria-hidden="true">Tools</span>
+          </label>
           <label class="choice" for="division-about">
             <span class="choice-control"><input class="choice-circle" id="division-about" type="radio" name="division" value="about" aria-label="Go to about section" /><span class="ball"></span></span>
             <span class="choice-name" aria-hidden="true">About</span>
@@ -68,6 +72,7 @@
         </button>
         <nav class="nav" aria-label="Primary">
           <a href="#work">Work</a>
+          <a href="#tools">Tools</a>
           <a href="#reel">Reel</a>
           <a href="#about">About</a>
           <a class="nav-cta box" href="#contact">Contact</a>
@@ -157,15 +162,17 @@
             </div>
           </div>
           <div class="video-frame">
-            <iframe
+            <video
               id="reel-player"
-              src="https://drive.google.com/file/d/1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu/preview"
-              title="QTask Teaser Vid.mp4 preview"
-              loading="eager"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+              src="https://drive.google.com/uc?export=download&amp;id=1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu"
+              title="QTask Teaser Vid.mp4"
+              controls
+              playsinline
+              preload="metadata"
               allowfullscreen
-            ></iframe>
+            >
+              Your browser cannot play this video. <a href="https://drive.google.com/file/d/1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu/view" target="_blank" rel="noopener">Open it in Google Drive</a>.
+            </video>
           </div>
           <p class="hint">
             Trouble playing? <a id="reel-fallback" href="https://drive.google.com/file/d/1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu/view" target="_blank" rel="noopener">Open this video in Google Drive</a>.
@@ -176,7 +183,7 @@
       <section class="work reveal" id="work">
         <div class="wrap">
           <div class="section-head">
-            <p class="eyebrow">CLIENTS</p>
+            <p class="eyebrow">SELECTED CLIENTS</p>
             <h2>Organizations I’ve edited for</h2>
           </div>
 
@@ -215,7 +222,6 @@
                   </div>
                   <div class="client-logo-card__name">Quanby Solutions, Inc.</div>
                 </article>
-
                 <article class="client-logo-card" data-client="who">
                   <div class="client-logo-card__mark">
                     <span class="who-emblem-crop">
@@ -248,10 +254,82 @@
                   </div>
                   <div class="client-logo-card__name">Quanby Solutions, Inc.</div>
                 </article>
+
               </div>
             </div>
             <div class="client-carousel__panel" data-client-panel aria-live="polite"></div>
           </div>
+        </div>
+      </section>
+
+      <section class="toolkit reveal" id="tools">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">EDITING TOOLKIT</p>
+            <h2>Tools behind the edit</h2>
+          </div>
+
+          <div class="toolkit-carousel" data-toolkit-carousel aria-label="Editing tools">
+            <div class="toolkit-carousel__stage" data-toolkit-stage>
+              <div class="toolkit-carousel__track" data-toolkit-track>
+                <article class="toolkit-card">
+                  <img src="images/tools/after-effects.svg" alt="After Effects" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/premiere-pro.svg" alt="Premiere Pro" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/davinci-resolve.svg" alt="DaVinci Resolve" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/filmora.svg" alt="Filmora" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/canva.svg" alt="Canva" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/lightroom.svg" alt="Lightroom" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/photoshop.svg" alt="Photoshop" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/adobe-illustrator.svg" alt="Adobe Illustrator" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card">
+                  <img src="images/tools/capcut.svg" alt="CapCut" width="88" height="88" loading="eager" decoding="async" tabindex="0" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/after-effects.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/premiere-pro.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/davinci-resolve.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/filmora.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/canva.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/lightroom.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/photoshop.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/adobe-illustrator.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+                <article class="toolkit-card" aria-hidden="true">
+                  <img src="images/tools/capcut.svg" alt="" width="88" height="88" loading="eager" decoding="async" tabindex="-1" />
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="about reveal" id="about">
