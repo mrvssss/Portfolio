@@ -42,8 +42,45 @@ if (divisionNav) {
   const sections = sectionRadios
     .map((radio) => document.getElementById(radio.value))
     .filter(Boolean);
+  const trackMarker = divisionNav.querySelector(".track-marker");
   let collapseTimer = 0;
   let pointerInsideRail = false;
+  let clickScrollLocked = false;
+  let clickScrollTimer = 0;
+  let scrollEndTimer = 0;
+
+  const setActiveSection = (sectionId) => {
+    sectionRadios.forEach((radio) => {
+      const active = radio.value === sectionId;
+      radio.checked = active;
+      radio.closest(".choice")?.setAttribute("aria-current", active ? "true" : "false");
+    });
+  };
+
+  const updateTrackMarker = () => {
+    if (!trackMarker) {
+      return;
+    }
+
+    const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollRange > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollRange)) : 0;
+    trackMarker.style.top = `${progress * 100}%`;
+  };
+
+  const finishClickScroll = () => {
+    window.clearTimeout(clickScrollTimer);
+    window.clearTimeout(scrollEndTimer);
+    if (!clickScrollLocked) {
+      return;
+    }
+    clickScrollLocked = false;
+    updateTrackMarker();
+  };
+
+  const scheduleClickScrollEnd = () => {
+    window.clearTimeout(scrollEndTimer);
+    scrollEndTimer = window.setTimeout(finishClickScroll, 180);
+  };
 
   const collapseRail = () => {
     if (!pointerInsideRail) {
@@ -84,15 +121,45 @@ if (divisionNav) {
         return;
       }
 
-      document.getElementById(radio.value)?.scrollIntoView({
+      const target = document.getElementById(radio.value);
+      if (!target) {
+        return;
+      }
+
+      clickScrollLocked = true;
+      setActiveSection(radio.value);
+      window.clearTimeout(clickScrollTimer);
+      clickScrollTimer = window.setTimeout(finishClickScroll, 1200);
+      target.scrollIntoView({
         behavior: prefersReducedMotion.matches ? "auto" : "smooth",
         block: "start",
       });
+
+      if (prefersReducedMotion.matches) {
+        finishClickScroll();
+      }
     });
   });
 
+  window.addEventListener("scroll", () => {
+    updateTrackMarker();
+    if (clickScrollLocked) {
+      scheduleClickScrollEnd();
+    }
+  }, { passive: true });
+
+  if ("onscrollend" in window) {
+    window.addEventListener("scrollend", finishClickScroll, { passive: true });
+  }
+
+  updateTrackMarker();
+
   if ("IntersectionObserver" in window) {
     const sectionObserver = new IntersectionObserver((entries) => {
+      if (clickScrollLocked) {
+        return;
+      }
+
       const activeEntry = entries
         .filter((entry) => entry.isIntersecting)
         .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
@@ -101,10 +168,7 @@ if (divisionNav) {
         return;
       }
 
-      const activeRadio = sectionRadios.find((radio) => radio.value === activeEntry.target.id);
-      if (activeRadio) {
-        activeRadio.checked = true;
-      }
+      setActiveSection(activeEntry.target.id);
     }, {
       rootMargin: "-20% 0px -55% 0px",
       threshold: [0, 0.1, 0.25, 0.5, 0.75],
