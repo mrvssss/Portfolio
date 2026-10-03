@@ -116,6 +116,12 @@ if (divisionNav) {
   });
 
   sectionRadios.forEach((radio) => {
+    radio.addEventListener("click", () => {
+      if (radio.value === "intro" && !document.getElementById("intro")) {
+        window.location.href = "index.html";
+      }
+    });
+
     radio.addEventListener("change", () => {
       if (!radio.checked) {
         return;
@@ -123,6 +129,9 @@ if (divisionNav) {
 
       const target = document.getElementById(radio.value);
       if (!target) {
+        if (radio.value === "intro") {
+          window.location.href = "index.html";
+        }
         return;
       }
 
