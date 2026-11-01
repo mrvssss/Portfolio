@@ -530,26 +530,47 @@ button:disabled::after {
 }
 
 .intro-card {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(280px, 0.88fr) minmax(0, 1.12fr);
   min-height: min(660px, calc(100svh - 160px));
   overflow: hidden;
-  border-radius: 28px;
-  background: var(--intro-bg);
-  box-shadow: 12px 12px 28px var(--intro-shadow-dark),
-    -12px -12px 28px var(--intro-shadow-light);
+  padding: 18px;
+  border: 1px solid transparent;
+  border-radius: 34px;
+  background: linear-gradient(145deg, rgba(19, 22, 25, 0.96), rgba(9, 11, 13, 0.98));
+  box-shadow: 18px 18px 30px var(--intro-shadow-dark),
+    -18px -18px 30px var(--intro-shadow-light),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.015);
 }
 
 .intro-photo {
+  position: relative;
   display: grid;
   place-items: stretch;
-  padding: 18px;
   min-height: 100%;
+  padding: 18px;
   overflow: hidden;
-  border-radius: 22px;
-  background: var(--intro-bg);
-  box-shadow: inset 7px 7px 16px var(--intro-shadow-dark),
-    inset -7px -7px 16px var(--intro-shadow-light);
+  border: 1px solid transparent;
+  border-radius: 26px;
+  background: rgba(7, 9, 11, 0.9);
+  box-shadow: inset 8px 8px 18px var(--intro-shadow-dark),
+    inset -8px -8px 18px var(--intro-shadow-light);
+}
+
+:root[data-theme="light"] .intro-card {
+  border-color: transparent;
+  background: linear-gradient(145deg, rgba(250, 251, 252, 0.96), rgba(231, 234, 238, 0.94));
+  box-shadow: 18px 18px 30px rgba(153, 159, 165, 0.22),
+    -18px -18px 30px rgba(255, 255, 255, 0.88),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+:root[data-theme="light"] .intro-photo {
+  border-color: transparent;
+  background: rgba(239, 242, 246, 0.94);
+  box-shadow: inset 8px 8px 18px rgba(153, 159, 165, 0.18),
+    inset -8px -8px 18px rgba(255, 255, 255, 0.82);
 }
 
 .intro-photo img {
