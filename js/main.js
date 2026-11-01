@@ -4,12 +4,12 @@ const year = document.getElementById("year");
 const themeToggle = document.getElementById("theme-toggle");
 const divisionNav = document.querySelector(".division-nav");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const reelControls = document.querySelector(".reel-controls");
-const reelMenuToggle = document.getElementById("reel-menu-toggle");
-const reelProjectMenu = document.getElementById("reel-project-menu");
 const reelCurrent = document.getElementById("reel-current");
 const reelPlayer = document.getElementById("reel-player");
 const reelFallback = document.getElementById("reel-fallback");
+const videoGrids = document.querySelectorAll("[data-project-grid]");
+const videoSearch = document.getElementById("video-search");
+const videoCount = document.getElementById("video-count");
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -187,64 +187,106 @@ if (divisionNav) {
   }
 }
 
-if (reelControls && reelMenuToggle && reelProjectMenu) {
-  const setReelMenuOpen = (open) => {
-    reelMenuToggle.checked = open;
-    reelMenuToggle.setAttribute("aria-expanded", String(open));
-    reelProjectMenu.setAttribute("aria-hidden", String(!open));
-    reelProjectMenu.inert = !open;
-    reelProjectMenu.dataset.open = String(open);
-  };
-
-  const closeReelMenu = () => {
-    setReelMenuOpen(false);
-  };
-
-  reelProjectMenu.querySelectorAll(".reel-project-option").forEach((option, index) => {
-    option.style.setProperty("--option-index", index);
-  });
-
-  reelMenuToggle.addEventListener("change", () => {
-    setReelMenuOpen(reelMenuToggle.checked);
-  });
-
-  reelProjectMenu.querySelectorAll(".reel-project-option").forEach((option) => {
-    option.addEventListener("click", () => {
+if (videoGrids.length) {
+  videoGrids.forEach((grid) => {
+    grid.querySelectorAll(".reel-project-option").forEach((option) => {
       const fileId = option.dataset.fileId;
       const projectName = option.textContent.trim();
-      const previewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+      const poster = document.createElement("span");
+      const thumbnail = document.createElement("img");
+      const details = document.createElement("span");
+      const title = document.createElement("span");
+      const type = document.createElement("span");
+      const placeholder = document.createElement("span");
 
-      if (reelPlayer) {
-        reelPlayer.src = previewUrl;
-        reelPlayer.title = `${projectName} preview`;
-      }
-      if (reelCurrent) {
-        reelCurrent.textContent = projectName;
-      }
-      if (reelFallback) {
-        reelFallback.href = `https://drive.google.com/file/d/${fileId}/view`;
-        reelFallback.textContent = `Open ${projectName} in Google Drive`;
-      }
+      poster.className = "reel-project-option__poster";
+      placeholder.className = "reel-project-option__placeholder";
+      placeholder.textContent = projectName.replace(/\.[^.]+$/, "");
 
-      reelProjectMenu.querySelectorAll(".reel-project-option").forEach((item) => {
-        item.setAttribute("aria-pressed", String(item === option));
-      });
+      const showPlaceholder = () => {
+        poster.classList.add("reel-project-option__poster--placeholder");
+        thumbnail.remove();
+        if (!poster.contains(placeholder)) {
+          poster.append(placeholder);
+        }
+      };
 
-      closeReelMenu();
-      reelMenuToggle.focus();
+      thumbnail.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w640`;
+      thumbnail.alt = "";
+      thumbnail.loading = grid.id === "reel-project-menu" ? "eager" : "lazy";
+      thumbnail.referrerPolicy = "no-referrer";
+      thumbnail.addEventListener("error", showPlaceholder, { once: true });
+      thumbnail.addEventListener("load", () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 12;
+        canvas.height = 8;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+
+        try {
+          context.drawImage(thumbnail, 0, 0, canvas.width, canvas.height);
+          const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+          const luminance = [];
+
+          for (let index = 0; index < pixels.length; index += 4) {
+            luminance.push(0.2126 * pixels[index] + 0.7152 * pixels[index + 1] + 0.0722 * pixels[index + 2]);
+          }
+
+          const average = luminance.reduce((sum, value) => sum + value, 0) / luminance.length;
+          const variance = luminance.reduce((sum, value) => sum + (value - average) ** 2, 0) / luminance.length;
+
+          if (Math.sqrt(variance) < 12) {
+            showPlaceholder();
+          }
+        } catch {}
+      }, { once: true });
+      poster.append(thumbnail);
+
+      details.className = "reel-project-option__details";
+      title.className = "reel-project-option__title";
+      title.textContent = projectName;
+      type.className = "reel-project-option__type";
+      type.textContent = projectName.split(".").pop().toUpperCase() + " VIDEO";
+      details.append(title, type);
+      option.replaceChildren(poster, details);
+      option.dataset.searchText = projectName.toLowerCase();
+
+      if (option.tagName === "BUTTON") {
+        option.setAttribute("aria-label", `Play ${projectName}`);
+        option.addEventListener("click", () => {
+          const videoUrl = `/video?id=${encodeURIComponent(fileId)}`;
+          reelPlayer.src = videoUrl;
+          reelPlayer.title = `${projectName} preview`;
+          reelPlayer.load();
+          reelPlayer.play().catch(() => {});
+
+          if (reelCurrent) {
+            reelCurrent.textContent = projectName;
+          }
+          if (reelFallback) {
+            reelFallback.href = `https://drive.google.com/file/d/${fileId}/view`;
+          }
+
+          grid.querySelectorAll(".reel-project-option").forEach((item) => {
+            item.setAttribute("aria-pressed", String(item === option));
+          });
+        });
+      }
     });
   });
 
-  document.addEventListener("click", (event) => {
-    if (!reelControls.contains(event.target)) {
-      closeReelMenu();
-    }
-  });
+  videoSearch?.addEventListener("input", () => {
+    const projectOptions = [...document.querySelectorAll("#all-videos-grid .reel-project-option")];
+    const query = videoSearch.value.trim().toLowerCase();
+    let visibleCount = 0;
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && reelMenuToggle.checked) {
-      closeReelMenu();
-      reelMenuToggle.focus();
+    projectOptions.forEach((option) => {
+      const matches = option.dataset.searchText.includes(query);
+      option.hidden = !matches;
+      visibleCount += Number(matches);
+    });
+
+    if (videoCount) {
+      videoCount.textContent = `${visibleCount} ${visibleCount === 1 ? "video" : "videos"}`;
     }
   });
 }

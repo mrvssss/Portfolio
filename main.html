@@ -74,6 +74,7 @@
           <a href="#clients">Work</a>
           <a href="#tools">Tools</a>
           <a href="#reel">Reel</a>
+          <a href="all-videos.html">Videos</a>
           <a href="#about">About</a>
           <a class="nav-cta box" href="#contact">Contact</a>
         </nav>
@@ -102,60 +103,44 @@
     <main id="main">
       <section class="reel reveal" id="reel">
         <div class="wrap">
-          <div class="section-head">
-            <p class="eyebrow">Showreel 2026</p>
-            <h2>Selected moments</h2>
+          <div class="reel-shell">
+            <section class="featured-panel" id="reel-featured" aria-labelledby="reel-current">
+              <div class="featured-heading">
+                <div>
+                  <p class="featured-tag">FEATURED PROJECT</p>
+                  <h2 id="reel-current">QTask Teaser Vid.mp4</h2>
+                </div>
+                <a class="reel-fallback" id="reel-fallback" href="https://drive.google.com/file/d/1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu/view" target="_blank" rel="noopener">Open in Google Drive</a>
+              </div>
+              <div class="video-frame">
+                <video
+                  id="reel-player"
+                  src="/video?id=1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu"
+                  controls
+                  playsinline
+                  preload="metadata"
+                >
+                  Your browser does not support HTML video. <a href="https://drive.google.com/file/d/1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu/view">Open in Google Drive</a>.
+                </video>
+              </div>
+            </section>
+
+            <section class="more-videos" id="reel-projects" aria-labelledby="reel-projects-title">
+              <div class="more-videos__header">
+                <div>
+                  <p class="eyebrow">THE COLLECTION</p>
+                  <h3 id="reel-projects-title">More Videos</h3>
+                </div>
+                <a class="view-all-link" href="all-videos.html">View all <span aria-hidden="true">&rarr;</span></a>
+              </div>
+              <div class="reel-project-grid" id="reel-project-menu" data-project-grid aria-label="Featured video projects">
+                <button class="reel-project-option" type="button" data-file-id="1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu" aria-pressed="true">QTask Teaser Vid.mp4</button>
+                <button class="reel-project-option" type="button" data-file-id="14XFI63H0WCrE6YKmWakEeVRTn1YsuMh0" aria-pressed="false">AMLC.mp4</button>
+                <button class="reel-project-option" type="button" data-file-id="114niZEH38hlTI4XPyJ0U5Mr_QHOIgMUU" aria-pressed="false">Company Video V4.mp4</button>
+                <button class="reel-project-option" type="button" data-file-id="1KdA3yZOkEAo1lewmwrV8iKa0WuC0o9xU" aria-pressed="false">HSI Business Permit.mp4</button>
+              </div>
+            </section>
           </div>
-          <div class="reel-controls">
-            <p class="reel-current" id="reel-current">QTask Teaser Vid.mp4</p>
-            <label class="hamburger">
-              <input
-                id="reel-menu-toggle"
-                type="checkbox"
-                aria-label="Choose a project"
-                aria-expanded="false"
-                aria-controls="reel-project-menu"
-              />
-              <svg viewBox="0 0 32 32" aria-hidden="true">
-                <path class="line line-top" d="M6 10H26" />
-                <path class="line line-middle" d="M6 16H26" />
-                <path class="line line-bottom" d="M6 22H26" />
-              </svg>
-            </label>
-            <div class="reel-project-menu" id="reel-project-menu" aria-label="Choose a project" aria-hidden="true" inert>
-              <button class="reel-project-option" type="button" data-file-id="1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu" aria-pressed="true">QTask Teaser Vid.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="14XFI63H0WCrE6YKmWakEeVRTn1YsuMh0" aria-pressed="false">AMLC.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="114niZEH38hlTI4XPyJ0U5Mr_QHOIgMUU" aria-pressed="false">Company Video V4.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1KdA3yZOkEAo1lewmwrV8iKa0WuC0o9xU" aria-pressed="false">HSI Business Permit.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1lAkY49E4Ro356XwTjLTa77VQ4K7a3o5R" aria-pressed="false">Intro 1.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1XGsrEm5Caa4RMW5086Nq8PIGOPHhDCNz" aria-pressed="false">NotarioPH Instructional Video w BGM.mov</button>
-              <button class="reel-project-option" type="button" data-file-id="1Q4J8jz0TqCvUgegjXnCtSAJDOPYtAxvG" aria-pressed="false">OJT Vid.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1CGi5XQbRn2uJbsKB0EpmRt9eViXzoH3u" aria-pressed="false">PCIC V4.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1b2B5_kWeyuWM6apqQh5XbuXgGr70DQC_" aria-pressed="false">QCount Instructional Vid.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1_UhOCi1VJ2Z5fKiFRtSI5uZCk6cL7Nc_" aria-pressed="false">QLearn Inst Vid V2.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1vtCERbIDONugplg_KWCmDtavDAnak-I9" aria-pressed="false">Qlegal Onboarding Step By Step.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1SYet_2sdRHfND-AYXxdCWFtkZuwAVMEy" aria-pressed="false">QSign Lite Instructional Vid.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1AGch4qs7Tpsc6V67uovvyATKj631w-Zi" aria-pressed="false">QTask.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1oCq6NUgcASYRNbliH4w8GDipsNSbKkFB" aria-pressed="false">Quanby ChatBots Final Version.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1wOBVCcmTBta10c1zfeChfsaV-kUZ9O2_" aria-pressed="false">Quanby Legal Instructional Vid 2.0.mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="13nnYVKcbdf6C4SOsGCkURLZYRpPMZ6L9" aria-pressed="false">Quanby Promo Revised (Audio).mp4</button>
-              <button class="reel-project-option" type="button" data-file-id="1abN4r-eQDm6BVIuJ863qMXKGlYoU5itC" aria-pressed="false">Teaser.mp4</button>
-            </div>
-          </div>
-          <div class="video-frame">
-            <iframe
-              id="reel-player"
-              src="https://drive.google.com/file/d/1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu/preview"
-              title="QTask Teaser Vid.mp4 preview"
-              loading="eager"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="hint">
-            Trouble playing? <a id="reel-fallback" href="https://drive.google.com/file/d/1BiX3a0gwJV4_x8pyCG_g06KOIWh4gqRu/view" target="_blank" rel="noopener">Open this video in Google Drive</a>.
-          </p>
         </div>
       </section>
 
